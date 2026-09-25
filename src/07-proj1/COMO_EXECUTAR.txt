@@ -1,0 +1,6 @@
+1) Coloque DejaVuSans.ttf em assets\DejaVuSans.ttf
+2) Ajuste SDL_DIR no makefile se necessario.
+3) No terminal desta pasta:
+   mingw32-make
+4) Execute:
+   .\projeto1.exe caminho\para\imagem.png
