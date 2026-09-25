@@ -1,0 +1,26 @@
+{
+  "tasks": [
+    {
+      "label": "Compilar Projeto 1",
+      "type": "shell",
+      "command": "mingw32-make",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}/src/07-proj1"
+      },
+      "problemMatcher": ["$gcc"],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Limpar Projeto 1",
+      "type": "shell",
+      "command": "mingw32-make clean",
+      "args": [],
+      "options": {
+        "cwd": "${workspaceFolder}/src/07-proj1"
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ],
+  "version": "2.0.0"
+}
