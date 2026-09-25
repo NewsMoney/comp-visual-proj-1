@@ -169,6 +169,9 @@ Caso nenhum caminho seja informado, ou caso o arquivo fornecido seja inválido, 
 ## Organização dos arquivos
 
 ```text
+docs/
+├── projeto - Analise final.pdf
+├── projeto - Analise inicial.pdf
 src/07-proj1/
 ├── main.c
 ├── types.h
