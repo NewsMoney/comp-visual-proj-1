@@ -1,94 +1,174 @@
-Projeto 1 — Processamento de imagens
-Disciplina: Computação Visual — 2026.2
-Professor: André Kishimoto
+# Projeto 1 — Processamento de Imagens
 
-Integrantes
-Diogo Cornelio Martins Rosa — 10403852
-José Victor Scheurich Roling — 10418225
-Milton Almeida Leoncio — 10416764
-Vitor Neudl Gandolfi — 10408845
-Base do projeto
-O projeto foi desenvolvido a partir do repositório CompVis262, principalmente dos exemplos:
+**Disciplina:** Computação Visual — 2026.2  
+**Professor:** André Kishimoto
 
-03-image: carregamento com SDL_image;
-04-invert_image: conversão para RGBA32, manipulação individual de pixels e atualização da textura;
-05-filter_image: separação entre superfície original e resultado processado;
-06-primitives: desenho de primitivas usado na janela do histograma e nos botões.
-A estrutura foi refatorada em arquivos .c e .h para separar carregamento/manipulação da imagem, histograma/equalização, interface e fluxo principal do programa.
+## Integrantes
 
-Funcionalidades implementadas
-Recebe o caminho da imagem pela linha de comando.
-Detecta erro de arquivo inexistente ou imagem inválida.
-Detecta se a imagem é colorida ou já está em escala de cinza.
-Converte imagens coloridas usando Y = 0.2125R + 0.7154G + 0.0721B.
-Cria uma janela principal inicialmente em 1024x768 e uma janela secundária filha.
-Calcula e exibe um histograma de 256 níveis.
-Calcula média e desvio padrão.
-Classifica intensidade em clara/média/escura e contraste em alto/médio/baixo.
-Equaliza o histograma e permite retornar à versão original em escala de cinza sem recarregar o arquivo.
-Alterna a exibição entre 1024x768 e a resolução original.
-Salva a imagem atual em output_image.png ao pressionar S.
-Usa SDL_ttf para textos na janela secundária.
-Critérios adotados para classificação
-O enunciado pede as classificações, mas não fixa os limiares. O grupo adotou critérios explícitos:
+- Diogo Cornelio Martins Rosa — 10403852
+- José Victor Scheurich Roling — 10418225
+- Milton Almeida Leoncio — 10416764
+- Vitor Neudl Gandolfi — 10408845
 
-Intensidade pela média [0,255]:
-escura: média < 85;
-média: 85 <= média < 170;
-clara: média >= 170.
-Contraste pelo desvio padrão:
-baixo: < 42,5;
-médio: 42,5 <= desvio < 85;
-alto: >= 85.
-O segundo critério considera que o desvio padrão máximo de uma imagem de 8 bits é aproximadamente 127,5, dividindo esse intervalo em três faixas.
+## Base do projeto
 
-Fonte
-A família escolhida é DejaVu Sans. O programa carrega a fonte pelo caminho relativo:
+O projeto foi desenvolvido a partir do repositório **CompVis262**, utilizando principalmente como referência os seguintes exemplos:
 
+- **03-image:** carregamento de imagens com `SDL_image`;
+- **04-invert_image:** conversão para `RGBA32`, manipulação individual de pixels e atualização da textura;
+- **05-filter_image:** separação entre a superfície original e o resultado processado;
+- **06-primitives:** desenho de primitivas utilizado na janela do histograma e nos botões da interface.
+
+A estrutura original foi refatorada em arquivos `.c` e `.h`, separando as responsabilidades de:
+
+- carregamento e manipulação da imagem;
+- cálculo de histograma e equalização;
+- interface gráfica;
+- fluxo principal do programa.
+
+## Funcionalidades implementadas
+
+O programa possui as seguintes funcionalidades:
+
+- recebe o caminho da imagem pela linha de comando;
+- identifica erros de arquivo inexistente ou imagem inválida;
+- detecta se a imagem é colorida ou já está em escala de cinza;
+- converte imagens coloridas para escala de cinza utilizando:
+
+  ```text
+  Y = 0.2125R + 0.7154G + 0.0721B
+  ```
+
+- cria uma janela principal inicialmente em `1024x768` e uma janela secundária para informações da imagem;
+- calcula e exibe um histograma com 256 níveis de intensidade;
+- calcula a média e o desvio padrão dos níveis de intensidade;
+- classifica a imagem quanto à intensidade em **clara**, **média** ou **escura**;
+- classifica o contraste em **alto**, **médio** ou **baixo**;
+- realiza a equalização do histograma;
+- permite retornar à versão original em escala de cinza sem recarregar o arquivo;
+- alterna a exibição entre `1024x768` e a resolução original da imagem;
+- salva a imagem atualmente exibida em `output_image.png` ao pressionar a tecla `S`;
+- utiliza `SDL_ttf` para renderização dos textos da janela secundária.
+
+## Critérios adotados para classificação
+
+O enunciado solicita a classificação da intensidade e do contraste, mas não estabelece limiares específicos. Por isso, o grupo adotou os critérios descritos abaixo.
+
+### Intensidade
+
+A classificação é feita a partir da média dos níveis de intensidade, considerando o intervalo `[0, 255]`:
+
+| Classificação | Critério |
+|---|---|
+| Escura | média < 85 |
+| Média | 85 ≤ média < 170 |
+| Clara | média ≥ 170 |
+
+### Contraste
+
+A classificação é feita a partir do desvio padrão:
+
+| Classificação | Critério |
+|---|---|
+| Baixo | desvio padrão < 42,5 |
+| Médio | 42,5 ≤ desvio padrão < 85 |
+| Alto | desvio padrão ≥ 85 |
+
+O critério considera que o desvio padrão máximo possível para uma imagem de 8 bits é aproximadamente `127,5`. Esse intervalo foi dividido em três faixas para determinar as classificações de contraste.
+
+## Fonte utilizada
+
+A família tipográfica utilizada pelo programa é **DejaVu Sans**.
+
+A fonte deve estar disponível no seguinte caminho relativo ao projeto:
+
+```text
 src/07-proj1/assets/DejaVuSans.ttf
+```
 
-O arquivo deve ser incluído no repositório do grupo. Dessa forma, o funcionamento não depende das fontes instaladas no Windows ou em outro sistema operacional.
+Dessa forma, o funcionamento do programa não depende das fontes instaladas no Windows ou em outro sistema operacional.
 
-O arquivo .ttf não está incluído neste pacote inicial. Adicione DejaVuSans.ttf à pasta assets antes da execução.
+> **Importante:** caso o arquivo `DejaVuSans.ttf` não esteja presente no pacote recebido, ele deve ser adicionado à pasta `assets` antes da execução do programa.
 
-Ambiente usado pelo grupo
-Conforme definido na análise inicial:
+## Ambiente de desenvolvimento
 
-Sistema operacional: Windows;
-Compilador: GCC;
-Editor: Visual Studio Code;
-SDL3: 3.4.16;
-SDL3_image: 3.4.6;
-SDL3_ttf: preencher com a versão instalada pelo grupo.
-O makefile segue a estrutura dos exemplos da disciplina e parte do caminho:
+O projeto foi desenvolvido e testado no seguinte ambiente:
 
+| Componente | Configuração |
+|---|---|
+| Sistema operacional | Windows |
+| Compilador | GCC |
+| Editor | Visual Studio Code |
+| SDL3 | 3.4.16 |
+| SDL3_image | 3.4.6 |
+| SDL3_ttf |
+
+O `makefile` segue a estrutura utilizada nos exemplos da disciplina e considera, por padrão, o seguinte caminho para a SDL:
+
+```makefile
 SDL_DIR = d:\dev\compvis\libs\SDL3
+```
 
-Altere esse caminho se as bibliotecas estiverem em outro diretório.
+Caso as bibliotecas estejam instaladas em outro diretório, altere a variável `SDL_DIR` no `makefile`.
 
-Compilação
-No terminal do VS Code, dentro de src/07-proj1:
+## Compilação
 
+No terminal do Visual Studio Code, acesse o diretório:
+
+```text
+src/07-proj1
+```
+
+Em seguida, execute:
+
+```bash
 mingw32-make
+```
 
-O makefile gera projeto1.exe e copia SDL3.dll, SDL3_image.dll e SDL3_ttf.dll para a pasta do executável.
+O `makefile` gera o executável:
 
-Execução
-A imagem é obrigatoriamente informada na linha de comando:
+```text
+projeto1.exe
+```
 
+Além disso, as seguintes bibliotecas são copiadas para a pasta do executável:
+
+```text
+SDL3.dll
+SDL3_image.dll
+SDL3_ttf.dll
+```
+
+## Execução
+
+O caminho da imagem deve ser obrigatoriamente informado pela linha de comando.
+
+### Sintaxe
+
+```powershell
 .\projeto1.exe caminho\para\imagem.png
+```
 
-Exemplo:
+### Exemplo
 
+```powershell
 .\projeto1.exe .\teste.png
+```
 
-Controles:
+Caso nenhum caminho seja informado, ou caso o arquivo fornecido seja inválido, o programa informa o erro e encerra a execução.
 
-botão Equalizar / Ver original: alterna o processamento;
-botão Resolução original / 1024x768: alterna o tamanho de exibição;
-tecla S: salva output_image.png;
-tecla ESC: encerra o programa.
-Organização
+## Controles
+
+| Controle | Ação |
+|---|---|
+| **Equalizar / Ver original** | Alterna entre a imagem equalizada e a versão original em escala de cinza |
+| **Resolução original / 1024x768** | Alterna o tamanho de exibição da imagem |
+| `S` | Salva a imagem atual como `output_image.png` |
+| `ESC` | Encerra o programa |
+
+## Organização dos arquivos
+
+```text
 src/07-proj1/
 ├── main.c
 ├── types.h
@@ -102,3 +182,14 @@ src/07-proj1/
 └── assets/
     ├── DejaVuSans.ttf
     └── README_FONTE.txt
+```
+
+### Responsabilidade dos arquivos
+
+- `main.c`: inicialização da aplicação e controle do fluxo principal;
+- `types.h`: estruturas e tipos compartilhados pelo projeto;
+- `image.c` / `image.h`: carregamento, conversão e manipulação das imagens;
+- `histogram.c` / `histogram.h`: cálculo do histograma, estatísticas e equalização;
+- `gui.c` / `gui.h`: criação das janelas, renderização da interface e tratamento dos elementos gráficos;
+- `makefile`: configuração da compilação e cópia das bibliotecas necessárias;
+- `assets/`: arquivos auxiliares utilizados pela aplicação, incluindo a fonte.
